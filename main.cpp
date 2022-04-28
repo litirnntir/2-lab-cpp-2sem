@@ -1,26 +1,52 @@
 #include <iostream>
 #include <cmath>
 
-// Описание класса комплексных чисел (объявление нового типа данных Complex)
-class Complex {
+
+/* Класс точка на плоскости
+Хранятся декартовы координаты. Реализовать следующий функционал:
+ Перемещение по оси X
+ Перемещение по оси Y
+ Определение расстояния до начала координат
+ Определение расстояния до произвольной точки
+ Преобразование в полярные координаты и из полярных координат
+ Проверка на равенство */
+
+
+// Описание класса точка
+
+class Point {
+private:
+    double _x;
+    double _y;
 public:
-    // Поля класса (вещественная и мнимая части)
-    double _re;
-    double _im;
-    // Метод класса (вычисление модуля комплексного числа)
-    double abs() {
-        return sqrt(_re * _re + _im * _im);
-    } };
+    void set(int a, int b) {
+        _x = a;
+        _y = b;
+    }
+
+    double getX() {
+        return _x;
+    }
+    double getY() {
+        return _y;
+    }
+
+    void printPoint() {
+        std::cout << "x = " << _x << " y = " << ' ' << _y << std::endl;
+    }
+
+    void distance(Point b) {
+        std::cout << sqrt((b._x - this->_x) * (b._x - this->_x) + (b._y - this->_y) * (b._y - this->_y));
+    }
+
+    void distanceStart() {
+        std::cout << sqrt((this->_x) * (this->_x) + (this->_y) * (this->_y));
+    }
+};
+
 int main() {
-    // Создаём первый экземпляр класса: 1 + i
-    Complex c1;
-    c1._re = 1;
-    c1._im = 1;
-    // Создаём второй экземпляр класса: 3 + 4 * i
-    Complex c2;
-    c2._re = 3;
-    c2._im = 4;
     // Выводим их модули
-    printf("%.2f\n", c1.abs()); // Выведет 1.41
-    printf("%.2f\n", c2.abs()); // Выведет 5.00
+    Point p1;
+    p1.set(5, 4);
+    p1.printPoint();
 }
