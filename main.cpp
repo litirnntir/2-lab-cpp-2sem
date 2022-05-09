@@ -16,6 +16,13 @@ int checkNumber() {
 
 double checkDouble() {
     double n;
+//    char answer[256];
+//    fgets(answer, sizeof(answer), stdin);
+//    while (sscanf(answer, "%f", &n) != 1) {
+//        printf("Incorrect input. Try again:");
+//        fgets(answer, sizeof(answer), stdin);
+//    }
+//    return n;
     while (!(cin >> n) || (cin.peek() != '\n')) {
         cin.clear();
         while (cin.get() != '\n');
