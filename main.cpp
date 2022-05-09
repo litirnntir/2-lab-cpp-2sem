@@ -8,7 +8,7 @@ int checkNumber() {
     char answer[256];
     fgets(answer, sizeof(answer), stdin);
     while (sscanf(answer, "%d", &n) != 1) {
-        printf("Incorrect input. Try again:");
+        printf("Некорректный ввод, попробуйте еще раз: ");
         fgets(answer, sizeof(answer), stdin);
     }
     return n;
@@ -19,7 +19,7 @@ double checkDouble() {
     while (!(cin >> n) || (cin.peek() != '\n')) {
         cin.clear();
         while (cin.get() != '\n');
-        cout << "Incorrect input. Try again:";
+        cout << "Некорректный ввод, попробуйте еще раз: ";
     }
     return n;
 }
@@ -43,9 +43,7 @@ public:
         this->r = r;
     }
 
-    Point() {
-
-    }
+    Point() = default;
 
     int getX() {
         return this->x;
@@ -55,11 +53,11 @@ public:
         return this->y;
     }
 
-    double getFi() {
+    double getFi() const {
         return this->fi;
     }
 
-    double getR() {
+    double getR() const {
         return this->r;
     }
 
@@ -76,74 +74,63 @@ public:
         const double newFi = checkDouble();
         cout << "Enter R:";
         const double newR = checkDouble();
-        cout << newFi << " " << newR << endl;
         return {newFi, newR};
     }
 
-    Point movingY(int newY) {
+    Point movingY(int newY) const {
         return {this->x, this->y + newY};
     }
 
-    Point movingX(int newX) {
+    Point movingX(int newX) const {
         return {this->x + newX, this->y};
     }
 
-    double distanceToOrigin() {
+    double distanceToOrigin() const {
         return sqrt(pow(this->x, 2) + pow(this->y, 2));
     }
 
-    double distanceToAnotherPoint(Point point) {
+    double distanceToAnotherPoint(Point point) const {
         return sqrt(pow(this->x - point.x, 2) + pow(this->y - point.y, 2));
     }
 
-    Point toPolar() {
+    Point toPolar() const {
         return {atan((float) y / (float) x), sqrt(pow(x, 2) + pow(y, 2))};
     }
 
-    Point fromPolar() {
+    Point fromPolar() const {
         return {r * cos(fi), r * sin(fi)};
     }
 
-    bool equals(Point another) {
+    bool equals(Point another) const {
         return (this->x == another.x) && (this->y == another.y);
     }
 
-    void printPoint() {
+    void printPoint() const {
         cout << "Point{" << endl << "x = " << x << "\ny = " << y << endl << "}" << endl;
     }
-    void printPolarPoint() {
+
+    void printPolarPoint() const {
         cout << "Point{" << endl << "fi = " << fi << "\nr = " << r << endl << "}" << endl;
     }
 };
 
 class Menu {
 public:
-    static int checkNumber() {
-        int n;
-        char answer[256];
-        fgets(answer, sizeof(answer), stdin);
-        while (sscanf(answer, "%d", &n) != 1) {
-            printf("Incorrect input. Try again: ");
-            fgets(answer, sizeof(answer), stdin);
-        }
-        return n;
-    }
-
     static void mainMenu() {
         bool menu = true;
         while (menu) {
-            cout << "LR N2" << endl << "what u want?" << endl << "1) moving along the axis X" << endl
-                 << "2) moving along the axis Y" << endl << "3) distance to the origin" << endl <<
-                 "4) distance between 2 points" << endl <<
-                 "5) transformations to polar coordinates" << endl <<
-                 "6) transformations from polar coordinates" << endl <<
-                 "7) equality check" << endl <<
-                 "8) exit" << endl <<
-                 "Enter the number to continue" << endl;
+            cout << "Лаборная работа 2. Вариант 12" << endl << "1) Перемещение по оси X" << endl
+                 << "2) Перемещение по оси Y" << endl << "3) Расстояние до начала координат" << endl <<
+                 "4) Расстояние между двумя точками" << endl <<
+                 "5) Преобразование в полярные координаты" << endl <<
+                 "6) Преобразование из полярных координат" << endl <<
+                 "7) Проверка на равенство" << endl <<
+                 "8) ВЫХОД" << endl <<
+                 "Введите цифру для продолжения: " << endl;
             switch (checkNumber()) {
                 case 1: {
                     Point point = Point::initPoint();
-                    cout << "how much do you want to move?" << endl;
+                    cout << "Введите расстояние, на которое нужно переместить точку: " << endl;
                     int newX = checkNumber();
                     point = point.movingX(newX);
                     point.printPoint();
@@ -151,7 +138,7 @@ public:
                 }
                 case 2: {
                     Point point = Point::initPoint();
-                    cout << "how much do you want to move?" << endl;
+                    cout << "Введите расстояние, на которое нужно переместить точку: " << endl;
                     int newY = checkNumber();
                     point = point.movingY(newY);
                     point.printPoint();
@@ -159,37 +146,37 @@ public:
                 }
                 case 3: {
                     Point point = Point::initPoint();
-                    cout << "distance is: " << point.distanceToOrigin() << endl;
+                    cout << "Расстояние до начала координат: " << point.distanceToOrigin() << endl;
                     break;
                 }
                 case 4: {
                     Point point = Point::initPoint();
-                    cout << "Enter x for second point: " << endl;
+                    cout << "Введите x для второй точки: " << endl;
                     int newX = checkNumber();
-                    cout << "Enter x for second point: " << endl;
+                    cout << "Введите y для второй точки: " << endl;
                     int newY = checkNumber();
-                    cout << "distance is: " << point.distanceToAnotherPoint({newX, newY});
+                    cout << "Расстояние до точки: " << point.distanceToAnotherPoint({newX, newY}) << endl;
                     break;
                 }
                 case 5: {
                     Point point = Point::initPoint();
-                    point.printPolarPoint();
+                    point.toPolar().printPolarPoint();
                     break;
                 }
                 case 6: {
                     Point point = Point::initPointPolar();
-                    cout << "point: x = " << point.fromPolar().getFi() << ", y = " << point.fromPolar().getR() << endl;
+                    cout << "точка: x = " << point.fromPolar().getFi() << ", y = " << point.fromPolar().getR() << endl;
                     break;
                 }
                 case 7: {
                     Point point = Point::initPoint();
-                    cout << "for another point" << endl;
+                    cout << "Для второй точки: " << endl;
                     Point anotherPoint = Point::initPoint();
-                    cout << "Points are " << (point.equals(anotherPoint) ? "equals" : "not equals") << endl;
+                    cout << "Точки " << (point.equals(anotherPoint) ? "равны" : "не равны") << endl;
                     break;
                 }
                 case 8: {
-                    cout << "r u sure?\n1) yes\n2)no" << endl;
+                    cout << "Вы действительно хотите выйти?\n1) да\n2)нет" << endl;
                     bool innerMenu = true;
                     while (innerMenu) {
                         int choose = checkNumber();
@@ -200,7 +187,7 @@ public:
                             menu = true;
                             innerMenu = false;
                         } else {
-                            cout << "Incorrect! Thy again: " << endl;
+                            cout << "Некорректный ввод, попробуйте еще раз: " << endl;
                         }
                     }
                     break;
